@@ -21,7 +21,7 @@ jobs:
         run: pip install requests beautifulsoup4 urllib3
 
       - name: Đánh thức Thư ký làm việc
-        run: python bot_giaovu_chinhthuc.py
+        run: python bot.py
 
       - name: Lưu lại file lịch sử lên GitHub
         run: |
