@@ -1,0 +1,32 @@
+name: Thu Ky Bot 24/7
+
+on:
+  schedule:
+    - cron: '0 */3 * * *' # Chạy tự động mỗi 3 tiếng
+  workflow_dispatch: # Cho phép sếp bấm nút chạy bằng tay bất cứ lúc nào
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy code về máy chủ
+        uses: actions/checkout@v3
+
+      - name: Cài đặt Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Cài đặt thư viện
+        run: pip install requests beautifulsoup4 urllib3
+
+      - name: Đánh thức Thư ký làm việc
+        run: python bot_giaovu_chinhthuc.py
+
+      - name: Lưu lại file lịch sử lên GitHub
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add lich_su_giaovu.txt
+          git commit -m "Cập nhật thông báo mới" || echo "Không có thông báo mới"
+          git push
